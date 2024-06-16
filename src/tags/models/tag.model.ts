@@ -15,6 +15,6 @@ export class Tag extends Model <Tag, TagCreation>{
     @Column({type:DataType.INTEGER, unique:true,autoIncrement:true, allowNull: false, primaryKey: true})
     id: number;
 
-    @Column({type:DataType.STRING, allowNull: false})
+    @Column({type:DataType.STRING})
     nameTag: string;
 }

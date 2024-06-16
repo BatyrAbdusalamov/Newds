@@ -9,7 +9,7 @@ interface UserCreation {
     photo:string;
 }
 
-@Table({tableName:'user'})
+@Table({tableName:'users'})
 export class User extends Model <User, UserCreation>{
     @Column({type:DataType.INTEGER, unique:true,autoIncrement:true, allowNull: false, primaryKey: true})
     id: number;

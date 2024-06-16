@@ -8,16 +8,16 @@ interface TagsPostsCreation {
 }
 
 
-@Table({tableName:'tags_posts',createdAt:false,updatedAt:false})
+@Table({tableName:'tags_posts'})
 export class TagsPosts extends Model <TagsPosts, TagsPostsCreation>{
     @Column({type:DataType.INTEGER, unique:true,autoIncrement:true, allowNull: false, primaryKey: true})
     id: number;
 
     @ForeignKey(()=>Post)
-    @Column({type:DataType.INTEGER})
+    @Column({type:DataType.INTEGER,allowNull:false})
     idPosts: number;
 
     @ForeignKey(()=>Tag)
-    @Column({type:DataType.INTEGER})
+    @Column({type:DataType.INTEGER,allowNull:false})
     idTags: number;
 }

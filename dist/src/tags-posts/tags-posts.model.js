@@ -22,15 +22,15 @@ __decorate([
 ], TagsPosts.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => post_model_1.Post),
-    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.INTEGER }),
+    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.INTEGER, allowNull: false }),
     __metadata("design:type", Number)
 ], TagsPosts.prototype, "idPosts", void 0);
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => tag_model_1.Tag),
-    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.INTEGER }),
+    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.INTEGER, allowNull: false }),
     __metadata("design:type", Number)
 ], TagsPosts.prototype, "idTags", void 0);
 exports.TagsPosts = TagsPosts = __decorate([
-    (0, sequelize_typescript_1.Table)({ tableName: 'tags_posts', createdAt: false, updatedAt: false })
+    (0, sequelize_typescript_1.Table)({ tableName: 'tags_posts' })
 ], TagsPosts);
 //# sourceMappingURL=tags-posts.model.js.map

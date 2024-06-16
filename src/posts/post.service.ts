@@ -4,13 +4,6 @@ import { CreatePostData } from 'src/posts/data/CreatePost.data';
 import { Post } from './models/post.model';
 import { TagService } from 'src/tags/tag.service';
 import { TagsPostsService } from 'src/tags-posts/tags-posts.service';
-import { Tag } from 'src/tags/models/tag.model';
-import { isObject } from 'class-validator';
-
-interface newTags {
-    newTags:string[],
-    idTags: number[]
-}
 
 @Injectable()
 export class PostService {

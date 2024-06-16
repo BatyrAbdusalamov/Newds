@@ -48,16 +48,12 @@ let TagService = class TagService {
         try {
             console.log(9);
             const data = await this.searchTags(userTags);
-            console.log(9, data);
             if (data.newTags.length !== 0) {
-                console.log(9);
                 const dataNewTags = await this.tagRepository.bulkCreate(data.newTags);
-                console.log(dataNewTags);
                 dataNewTags.forEach((element) => {
                     data.idTags.push(element.dataValues.id);
                 });
-                console.log(data);
-                if (data !== undefined || null)
+                if (data)
                     return data;
             }
         }

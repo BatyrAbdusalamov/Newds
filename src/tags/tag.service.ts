@@ -25,7 +25,7 @@ export class TagService {
         data.forEach((element) => { dataNameTag.push(element.dataValues.nameTag); dataIdTag.push(element.dataValues.id); });
         userTags.forEach((element: string) => {
             if (dataNameTag.includes(element) === false) {
-                newTags.push({nameTag:element})
+                newTags.push({ nameTag: element })
             } else {
                 let tagIndexById = dataNameTag.findIndex((tag) => tag === element);
                 idTags.push(dataIdTag[tagIndexById])
@@ -41,18 +41,15 @@ export class TagService {
         try {
             console.log(9)
             const data = await this.searchTags(userTags)
-            console.log(9,data)
             if (data.newTags.length !== 0) {
-                console.log(9)
                 const dataNewTags = await this.tagRepository.bulkCreate(data.newTags)
-                console.log(dataNewTags);
                 dataNewTags.forEach((element) => {
                     data.idTags.push(element.dataValues.id);
                 })
-                console.log(data)
-                if (data !== undefined || null) return data;
+                if (data) return data;
             }
         } catch (error) {
+
             return error;
         }
     }

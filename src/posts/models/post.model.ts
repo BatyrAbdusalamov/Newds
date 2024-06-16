@@ -18,13 +18,13 @@ export class Post extends Model <Post, PostCreation>{
     @Column({type:DataType.INTEGER, unique:true,autoIncrement:true, allowNull: false, primaryKey: true})
     id: number;
 
-    @Column({type:DataType.STRING, allowNull: false})
+    @Column({type:DataType.STRING})
     content: string;
 
-    @Column({type:DataType.STRING, allowNull: false})
-    topic: string;
-
-    @Column({type:DataType.INTEGER, allowNull: false})
+    @Column({type:DataType.STRING})
+    topic: string; 
+    
+    @Column({type:DataType.INTEGER})
     idPostUser: number;
 
     @Column({type:DataType.STRING})
