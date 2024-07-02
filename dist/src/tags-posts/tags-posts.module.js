@@ -9,15 +9,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TagsPostsModule = void 0;
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
-const tags_posts_model_1 = require("./tags-posts.model");
+const tags_posts_model_1 = require("./models/tags-posts.model");
 const tags_posts_service_1 = require("./tags-posts.service");
+const post_model_1 = require("../posts/models/post.model");
+const tag_model_1 = require("../tags/models/tag.model");
 let TagsPostsModule = class TagsPostsModule {
 };
 exports.TagsPostsModule = TagsPostsModule;
 exports.TagsPostsModule = TagsPostsModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            sequelize_1.SequelizeModule.forFeature([tags_posts_model_1.TagsPosts])
+            sequelize_1.SequelizeModule.forFeature([tag_model_1.Tag, post_model_1.Post, tags_posts_model_1.TagsPosts])
         ],
         controllers: [],
         providers: [tags_posts_service_1.TagsPostsService],

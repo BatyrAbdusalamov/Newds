@@ -4,7 +4,7 @@ import { TagController } from './tag.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Tag } from './models/tag.model';
 import { Post } from 'src/posts/models/post.model';
-import { TagsPosts } from 'src/tags-posts/tags-posts.model';
+import { TagsPosts } from 'src/tags-posts/models/tags-posts.model';
 
 @Module({  
   imports:[

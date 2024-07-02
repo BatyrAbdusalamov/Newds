@@ -21,6 +21,9 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async getUser(id) {
+        return await this.userService.getUser(Number(id));
+    }
     async registerUser(registrationData) {
         const hashedPassword = await bcrypt.hash(registrationData.password, 10);
         try {
@@ -38,6 +41,13 @@ let UserController = class UserController {
     async getAuthenticatedUser(login) { }
 };
 exports.UserController = UserController;
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUser", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

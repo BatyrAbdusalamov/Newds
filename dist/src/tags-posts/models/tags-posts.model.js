@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TagsPosts = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const post_model_1 = require("../posts/models/post.model");
-const tag_model_1 = require("../tags/models/tag.model");
+const post_model_1 = require("../../posts/models/post.model");
+const tag_model_1 = require("../../tags/models/tag.model");
 let TagsPosts = class TagsPosts extends sequelize_typescript_1.Model {
 };
 exports.TagsPosts = TagsPosts;

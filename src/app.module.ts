@@ -8,7 +8,7 @@ import { Post } from './posts/models/post.model';
 import { Tag } from './tags/models/tag.model';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { TagsPostsModule } from './tags-posts/tags-posts.module';
-import { TagsPosts } from './tags-posts/tags-posts.model';
+import { TagsPosts } from './tags-posts/models/tags-posts.model';
 import { TagModule } from './tags/tag.module';
 
 @Module({

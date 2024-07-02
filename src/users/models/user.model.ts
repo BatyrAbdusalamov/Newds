@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Post } from "src/posts/models/post.model";
 
 interface UserCreation {
     id:number;
@@ -28,4 +29,7 @@ export class User extends Model <User, UserCreation>{
 
     @Column({type:DataType.STRING})
     photo: string;
+
+    @HasMany(()=>Post)
+    posts:Post[];
 }

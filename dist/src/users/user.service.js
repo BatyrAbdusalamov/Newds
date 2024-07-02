@@ -16,9 +16,16 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const user_model_1 = require("./models/user.model");
+const post_model_1 = require("../posts/models/post.model");
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
+    }
+    async getUser(id) {
+        return await this.userRepository.findByPk(id, { order: [['createdAt', 'ASC']],
+            include: [
+                { model: post_model_1.Post },
+            ], });
     }
     async addNewUser(data) {
         return await this.userRepository.create(data);

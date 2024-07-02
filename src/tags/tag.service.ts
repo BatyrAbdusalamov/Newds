@@ -39,17 +39,15 @@ export class TagService {
         idTags: number[];
     }> {
         try {
-            console.log(9)
             const data = await this.searchTags(userTags)
             if (data.newTags.length !== 0) {
                 const dataNewTags = await this.tagRepository.bulkCreate(data.newTags)
                 dataNewTags.forEach((element) => {
                     data.idTags.push(element.dataValues.id);
                 })
-                if (data) return data;
             }
+            return data;
         } catch (error) {
-
             return error;
         }
     }

@@ -6,6 +6,11 @@ import * as bcrypt from 'bcrypt';
 export class UserController {
     constructor(private userService: UserService) { }
 
+    @Get(':id')
+    async getUser(@Param('id') id:string){
+        return await this.userService.getUser(Number(id));
+    }
+
     @Post()
     async registerUser(@Body() registrationData: CreateUserData) {
         const hashedPassword = await bcrypt.hash(registrationData.password, 10);

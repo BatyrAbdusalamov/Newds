@@ -17,7 +17,7 @@ const post_model_1 = require("./posts/models/post.model");
 const tag_model_1 = require("./tags/models/tag.model");
 const authentication_module_1 = require("./authentication/authentication.module");
 const tags_posts_module_1 = require("./tags-posts/tags-posts.module");
-const tags_posts_model_1 = require("./tags-posts/tags-posts.model");
+const tags_posts_model_1 = require("./tags-posts/models/tags-posts.model");
 const tag_module_1 = require("./tags/tag.module");
 let AppModule = class AppModule {
 };

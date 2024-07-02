@@ -9,20 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tag = void 0;
-const sequelize_typescript_1 = require("sequelize-typescript");
-let Tag = class Tag extends sequelize_typescript_1.Model {
-};
-exports.Tag = Tag;
+exports.CreateTagsPost = void 0;
+const class_validator_1 = require("class-validator");
+class CreateTagsPost {
+}
+exports.CreateTagsPost = CreateTagsPost;
 __decorate([
-    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.INTEGER, unique: true, autoIncrement: true, allowNull: false, primaryKey: true }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], Tag.prototype, "id", void 0);
+], CreateTagsPost.prototype, "idPosts", void 0);
 __decorate([
-    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.STRING }),
-    __metadata("design:type", String)
-], Tag.prototype, "nameTag", void 0);
-exports.Tag = Tag = __decorate([
-    (0, sequelize_typescript_1.Table)({ tableName: 'tag' })
-], Tag);
-//# sourceMappingURL=tag.model.js.map
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateTagsPost.prototype, "idTags", void 0);
+//# sourceMappingURL=CreateTagsPost.data.js.map

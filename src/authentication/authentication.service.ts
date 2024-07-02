@@ -1,5 +1,4 @@
 import { CreateUserData } from "src/users/data/CreateUser.data";
-import { UserService } from "src/users/user.service";
 import * as bcrypt from 'bcrypt';
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { User } from "src/users/models/user.model";

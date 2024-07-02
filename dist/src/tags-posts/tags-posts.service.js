@@ -14,14 +14,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TagsPostsService = void 0;
 const common_1 = require("@nestjs/common");
-const tags_posts_model_1 = require("./tags-posts.model");
+const tags_posts_model_1 = require("./models/tags-posts.model");
 const sequelize_1 = require("@nestjs/sequelize");
 let TagsPostsService = class TagsPostsService {
     constructor(tagsPostsRepository) {
         this.tagsPostsRepository = tagsPostsRepository;
     }
-    async createAssociationTagsPosts(idPost, idTags) {
-        return await this.tagsPostsRepository.create({ idPosts: idPost, idTags: idTags });
+    async createAssociationTagsPosts(tagsPost) {
+        return await this.tagsPostsRepository.bulkCreate(tagsPost);
     }
 };
 exports.TagsPostsService = TagsPostsService;

@@ -11,8 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const tags_posts_model_1 = require("../../tags-posts/tags-posts.model");
+const tags_posts_model_1 = require("../../tags-posts/models/tags-posts.model");
 const tag_model_1 = require("../../tags/models/tag.model");
+const user_model_1 = require("../../users/models/user.model");
 let Post = class Post extends sequelize_typescript_1.Model {
 };
 exports.Post = Post;
@@ -29,6 +30,7 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "topic", void 0);
 __decorate([
+    (0, sequelize_typescript_1.ForeignKey)(() => user_model_1.User),
     (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.INTEGER }),
     __metadata("design:type", Number)
 ], Post.prototype, "idPostUser", void 0);
@@ -36,8 +38,11 @@ __decorate([
     (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.STRING }),
     __metadata("design:type", String)
 ], Post.prototype, "picture", void 0);
-exports.Post = Post = __decorate([
+__decorate([
     (0, sequelize_typescript_1.BelongsToMany)(() => tag_model_1.Tag, () => tags_posts_model_1.TagsPosts),
+    __metadata("design:type", Array)
+], Post.prototype, "tags", void 0);
+exports.Post = Post = __decorate([
     (0, sequelize_typescript_1.Table)({ tableName: 'post' })
 ], Post);
 //# sourceMappingURL=post.model.js.map

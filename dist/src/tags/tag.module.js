@@ -13,7 +13,7 @@ const tag_controller_1 = require("./tag.controller");
 const sequelize_1 = require("@nestjs/sequelize");
 const tag_model_1 = require("./models/tag.model");
 const post_model_1 = require("../posts/models/post.model");
-const tags_posts_model_1 = require("../tags-posts/tags-posts.model");
+const tags_posts_model_1 = require("../tags-posts/models/tags-posts.model");
 let TagModule = class TagModule {
 };
 exports.TagModule = TagModule;

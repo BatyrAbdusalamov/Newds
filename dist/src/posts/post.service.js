@@ -18,6 +18,7 @@ const sequelize_1 = require("@nestjs/sequelize");
 const post_model_1 = require("./models/post.model");
 const tag_service_1 = require("../tags/tag.service");
 const tags_posts_service_1 = require("../tags-posts/tags-posts.service");
+const tag_model_1 = require("../tags/models/tag.model");
 let PostService = class PostService {
     constructor(postRepository, tagService, tagsPostsService) {
         this.postRepository = postRepository;
@@ -27,14 +28,20 @@ let PostService = class PostService {
     async createPost(postObject) {
         try {
             const Post = await this.postRepository.create(postObject);
+            if (!postObject.tag)
+                return 'Post was successfully created';
             const tag = await this.tagService.getIdTagsByPost(postObject.tag);
-            console.log(tag, "1");
-            tag.idTags.forEach(async (elementId) => await this.tagsPostsService.createAssociationTagsPosts(Post.id, elementId));
+            const tagsPosts = tag.idTags.map((elementId) => { return { idPosts: Post.id, idTags: elementId }; });
+            console.log(tagsPosts);
+            this.tagsPostsService.createAssociationTagsPosts(tagsPosts);
             return 'Post was successfully created';
         }
         catch (error) {
             return `ERROR: ${error}`;
         }
+    }
+    async getAllPosts() {
+        return this.postRepository.findAll({ include: tag_model_1.Tag });
     }
 };
 exports.PostService = PostService;

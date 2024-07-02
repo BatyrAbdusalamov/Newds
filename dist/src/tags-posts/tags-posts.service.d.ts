@@ -1,6 +1,7 @@
-import { TagsPosts } from "./tags-posts.model";
+import { TagsPosts } from "./models/tags-posts.model";
+import { CreateTagsPost } from "./data/CreateTagsPost.data";
 export declare class TagsPostsService {
     private tagsPostsRepository;
     constructor(tagsPostsRepository: typeof TagsPosts);
-    createAssociationTagsPosts(idPost: number, idTags: number): Promise<object>;
+    createAssociationTagsPosts(tagsPost: CreateTagsPost[]): Promise<object>;
 }
