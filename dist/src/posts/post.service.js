@@ -29,19 +29,29 @@ let PostService = class PostService {
         try {
             const Post = await this.postRepository.create(postObject);
             if (!postObject.tag)
-                return 'Post was successfully created';
+                new common_1.HttpException(Post, common_1.HttpStatus.CREATED, { 'description': 'Post was successfully created' });
             const tag = await this.tagService.getIdTagsByPost(postObject.tag);
             const tagsPosts = tag.idTags.map((elementId) => { return { idPosts: Post.id, idTags: elementId }; });
             console.log(tagsPosts);
             this.tagsPostsService.createAssociationTagsPosts(tagsPosts);
-            return 'Post was successfully created';
+            return new common_1.HttpException(Post, common_1.HttpStatus.CREATED, { 'description': 'Post was successfully created' });
         }
         catch (error) {
-            return `ERROR: ${error}`;
+            return new common_1.HttpException(error, 500);
         }
     }
-    async getAllPosts() {
-        return this.postRepository.findAll({ include: tag_model_1.Tag });
+    async getAllPosts(page = 0) {
+        try {
+            const startPost = page * 10;
+            const posts = await this.postRepository.findAll({
+                offset: ((startPost < 0) ? 0 : startPost), limit: 10,
+                include: [{ model: tag_model_1.Tag, attributes: ['id', 'nameTag'], through: { attributes: [] } }]
+            });
+            return posts;
+        }
+        catch (error) {
+            return new common_1.HttpException(error, 500);
+        }
     }
 };
 exports.PostService = PostService;

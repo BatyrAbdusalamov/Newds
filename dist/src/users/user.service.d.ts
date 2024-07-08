@@ -1,9 +1,10 @@
+import { HttpException } from '@nestjs/common';
 import { User } from './models/user.model';
 import { CreateUserData } from 'src/users/data/CreateUser.data';
 export declare class UserService {
     private userRepository;
     constructor(userRepository: typeof User);
-    getUser(id: number): Promise<User>;
-    addNewUser(data: CreateUserData): Promise<User>;
-    getByLogin(login: string): Promise<User>;
+    getUserPosts(id: number): Promise<User | HttpException>;
+    addNewUser(registrationData: CreateUserData): Promise<User | HttpException>;
+    getByLogin(login: string): Promise<User | HttpException>;
 }

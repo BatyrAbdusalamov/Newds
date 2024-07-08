@@ -16,4 +16,6 @@ export class Tag extends Model <Tag, TagCreation>{
 
     @Column({type:DataType.STRING})
     nameTag: string;
+    @BelongsToMany(()=>Tag,()=>TagsPosts)
+    posts:Post[]
 }

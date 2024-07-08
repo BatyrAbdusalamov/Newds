@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { CreateUserData } from 'src/users/data/CreateUser.data';
 import { Post } from 'src/posts/models/post.model';
 import { Tag } from 'src/tags/models/tag.model';
+import * as bcrypt from 'bcrypt';
+import { IsNull } from 'sequelize-typescript';
 
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User) private userRepository: typeof User) { }
 
-    async getUser(id:number){
-        return await this.userRepository.findByPk(id,{ order: [['createdAt', 'ASC']],
-            include: [
-              { model: Post},
-            ],},)
+    async getUserPosts(id: number): Promise<User | HttpException> {
+        try {
+            const user: User | null = await this.userRepository.findByPk(id, {
+                order: [['createdAt', 'ASC']],
+                attributes: ['id', 'login', 'firstName', 'lastName', 'photo'],
+                include: [
+                    { model: Post, include: [{ model: Tag, attributes: ['id', 'nameTag'], through: { attributes: [] } }] },
+                ]
+            })
+            if (user === null) return new HttpException(`This user does not exist!`, HttpStatus.CONFLICT);
+            return user;
+        } catch (error) { return new HttpException(error, 500); }
     }
 
-    async addNewUser(data: CreateUserData){
-        return await this.userRepository.create(data);
+    async addNewUser(registrationData: CreateUserData): Promise<User | HttpException> {
+        try {
+            const findUserOrLogin = (await this.userRepository.findAll({ where: { login: registrationData.login } })).length
+            if (findUserOrLogin !== 0) return new HttpException(`This Login( ${registrationData.login} ) already using!`, HttpStatus.CONFLICT);
+            const hashedPassword = await bcrypt.hash(registrationData.password, 10);
+            const createdUser = await this.userRepository.create({
+                ...registrationData,
+                password: hashedPassword
+            });
+            createdUser.password = undefined;
+            return createdUser;
+        } catch (error) { return new HttpException(error, 500); }
     }
 
-    async getByLogin(login:string){
-        return await this.userRepository.findOne({where:{login}})
+    async getByLogin(login: string): Promise<User | HttpException> {
+        return await this.userRepository.findOne({ where: { login } })
     }
 }

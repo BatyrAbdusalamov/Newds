@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModule } from './users/user.module';
 import { PostModule } from './posts/post.module';
@@ -10,10 +10,11 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { TagsPostsModule } from './tags-posts/tags-posts.module';
 import { TagsPosts } from './tags-posts/models/tags-posts.model';
 import { TagModule } from './tags/tag.module';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -23,7 +24,7 @@ import { TagModule } from './tags/tag.module';
         password: configService.get('DB_PASSWORD'),
         port: Number(configService.get('DB_PORT')),
         database: configService.get('DB_NAME'),
-        models: [User,Post,Tag,TagsPosts]
+        models: [User, Post, Tag, TagsPosts]
       }),
       inject: [ConfigService]
     }),
@@ -32,5 +33,11 @@ import { TagModule } from './tags/tag.module';
     UserModule,
     PostModule,
     AuthenticationModule
-  ]})
-export class AppModule {}
+
+  ],
+  providers: [{
+    provide: APP_PIPE,
+    useClass: ValidationPipe,
+  }]
+})
+export class AppModule { }

@@ -17,18 +17,45 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const user_model_1 = require("./models/user.model");
 const post_model_1 = require("../posts/models/post.model");
+const tag_model_1 = require("../tags/models/tag.model");
+const bcrypt = require("bcrypt");
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async getUser(id) {
-        return await this.userRepository.findByPk(id, { order: [['createdAt', 'ASC']],
-            include: [
-                { model: post_model_1.Post },
-            ], });
+    async getUserPosts(id) {
+        try {
+            const user = await this.userRepository.findByPk(id, {
+                order: [['createdAt', 'ASC']],
+                attributes: ['id', 'login', 'firstName', 'lastName', 'photo'],
+                include: [
+                    { model: post_model_1.Post, include: [{ model: tag_model_1.Tag, attributes: ['id', 'nameTag'], through: { attributes: [] } }] },
+                ]
+            });
+            if (user === null)
+                return new common_1.HttpException(`This user does not exist!`, common_1.HttpStatus.CONFLICT);
+            return user;
+        }
+        catch (error) {
+            return new common_1.HttpException(error, 500);
+        }
     }
-    async addNewUser(data) {
-        return await this.userRepository.create(data);
+    async addNewUser(registrationData) {
+        try {
+            const findUserOrLogin = (await this.userRepository.findAll({ where: { login: registrationData.login } })).length;
+            if (findUserOrLogin !== 0)
+                return new common_1.HttpException(`This Login( ${registrationData.login} ) already using!`, common_1.HttpStatus.CONFLICT);
+            const hashedPassword = await bcrypt.hash(registrationData.password, 10);
+            const createdUser = await this.userRepository.create({
+                ...registrationData,
+                password: hashedPassword
+            });
+            createdUser.password = undefined;
+            return createdUser;
+        }
+        catch (error) {
+            return new common_1.HttpException(error, 500);
+        }
     }
     async getByLogin(login) {
         return await this.userRepository.findOne({ where: { login } });

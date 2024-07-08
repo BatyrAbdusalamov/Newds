@@ -19,6 +19,7 @@ const authentication_module_1 = require("./authentication/authentication.module"
 const tags_posts_module_1 = require("./tags-posts/tags-posts.module");
 const tags_posts_model_1 = require("./tags-posts/models/tags-posts.model");
 const tag_module_1 = require("./tags/tag.module");
+const core_1 = require("@nestjs/core");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,7 +45,11 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             post_module_1.PostModule,
             authentication_module_1.AuthenticationModule
-        ]
+        ],
+        providers: [{
+                provide: core_1.APP_PIPE,
+                useClass: common_1.ValidationPipe,
+            }]
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
