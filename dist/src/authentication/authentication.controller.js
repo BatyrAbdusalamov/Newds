@@ -20,26 +20,36 @@ let AuthenticationController = class AuthenticationController {
     constructor(authenticationService) {
         this.authenticationService = authenticationService;
     }
-    async addNewUser(data) {
-        return this.authenticationService.register(data);
+    async addNewUser(data, res) {
+        const userJwt = await this.authenticationService.register(data);
+        if (userJwt instanceof common_1.UnauthorizedException)
+            return userJwt;
+        res.set('x-access-token', userJwt.refresh);
+        return userJwt;
     }
-    async getByLogin(data) {
-        return this.authenticationService.getAuthenticatedUser(data);
+    async getByLogin(data, res) {
+        const userJwt = await this.authenticationService.getAuthenticatedUser(data);
+        if (userJwt instanceof common_1.UnauthorizedException)
+            return userJwt;
+        res.set('x-access-token', userJwt.access_token);
+        return userJwt.user;
     }
 };
 exports.AuthenticationController = AuthenticationController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateUser_data_1.CreateUserData]),
+    __metadata("design:paramtypes", [CreateUser_data_1.CreateUserData, Object]),
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "addNewUser", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateUser_data_1.CreateUserData]),
+    __metadata("design:paramtypes", [CreateUser_data_1.CreateUserData, Object]),
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "getByLogin", null);
 exports.AuthenticationController = AuthenticationController = __decorate([

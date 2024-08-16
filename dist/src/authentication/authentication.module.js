@@ -12,14 +12,22 @@ const common_1 = require("@nestjs/common");
 const user_model_1 = require("../users/models/user.model");
 const authentication_service_1 = require("./authentication.service");
 const authentication_controller_1 = require("./authentication.controller");
+const jwt_1 = require("@nestjs/jwt");
+const constants_1 = require("./constants");
 let AuthenticationModule = class AuthenticationModule {
 };
 exports.AuthenticationModule = AuthenticationModule;
 exports.AuthenticationModule = AuthenticationModule = __decorate([
     (0, common_1.Module)({
-        imports: [sequelize_1.SequelizeModule.forFeature([user_model_1.User])],
+        imports: [sequelize_1.SequelizeModule.forFeature([user_model_1.User]),
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: constants_1.jwtConstants.secret,
+                signOptions: { expiresIn: '60s' }
+            })],
         controllers: [authentication_controller_1.AuthenticationController],
-        providers: [authentication_service_1.AuthenticationService],
+        providers: [authentication_service_1.AuthenticationService, jwt_1.JwtService],
+        exports: [authentication_service_1.AuthenticationService]
     })
 ], AuthenticationModule);
 //# sourceMappingURL=authentication.module.js.map

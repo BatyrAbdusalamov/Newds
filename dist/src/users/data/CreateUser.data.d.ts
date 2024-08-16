@@ -3,4 +3,5 @@ export declare class CreateUserData {
     readonly password: string;
     readonly firstName?: string;
     readonly lastName?: string;
+    id: any;
 }

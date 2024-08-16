@@ -10,4 +10,6 @@ export declare class PostService {
     constructor(postRepository: typeof Post, tagService: TagService, tagsPostsService: TagsPostsService);
     createPost(postObject: CreatePostData): Promise<HttpException>;
     getAllPosts(page?: number): Promise<Post[] | HttpException>;
+    getPostsUser(idPostUser: number): Promise<Post[] | HttpException>;
+    deletePostUser(idPostUser: number): Promise<HttpException>;
 }

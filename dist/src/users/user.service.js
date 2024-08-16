@@ -19,9 +19,11 @@ const user_model_1 = require("./models/user.model");
 const post_model_1 = require("../posts/models/post.model");
 const tag_model_1 = require("../tags/models/tag.model");
 const bcrypt = require("bcrypt");
+const token_service_1 = require("../token/token.service");
 let UserService = class UserService {
-    constructor(userRepository) {
+    constructor(userRepository, tokenService) {
         this.userRepository = userRepository;
+        this.tokenService = tokenService;
     }
     async getUserPosts(id) {
         try {
@@ -46,12 +48,14 @@ let UserService = class UserService {
             if (findUserOrLogin !== 0)
                 return new common_1.HttpException(`This Login( ${registrationData.login} ) already using!`, common_1.HttpStatus.CONFLICT);
             const hashedPassword = await bcrypt.hash(registrationData.password, 10);
-            const createdUser = await this.userRepository.create({
+            let createdUser = await this.userRepository.create({
                 ...registrationData,
                 password: hashedPassword
             });
-            createdUser.password = undefined;
-            return createdUser;
+            createdUser['password'] = null;
+            const jwtTokens = await this.tokenService.createJwtTokens(createdUser);
+            console.log(jwtTokens);
+            return { user: createdUser, ...jwtTokens };
         }
         catch (error) {
             return new common_1.HttpException(error, 500);
@@ -65,6 +69,6 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, sequelize_1.InjectModel)(user_model_1.User)),
-    __metadata("design:paramtypes", [Object])
+    __metadata("design:paramtypes", [Object, token_service_1.TokenService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

@@ -26,7 +26,15 @@ let UserController = class UserController {
     registerUser(registrationData) {
         return this.userService.addNewUser(registrationData);
     }
-    getAuthenticatedUser(login) { }
+    getAuthenticatedUser(login, response) {
+        response.cookie('access_token', 'tokens!!!!!!!', {
+            expires: new Date(new Date().getTime() + +process.env.LIFE_ACCESS_TOKEN),
+            secure: false,
+            sameSite: 'lax',
+            httpOnly: true,
+        });
+        return response;
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -47,7 +55,7 @@ __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getAuthenticatedUser", null);
 exports.UserController = UserController = __decorate([

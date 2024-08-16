@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostData } from './data/CreatePost.data';
 
@@ -14,5 +14,15 @@ export class PostController {
     @Get(':page')
     getAllPosts(@Param('page' , ParseIntPipe) page:number){
         return this.postService.getAllPosts(page);
+    }
+
+    @Get('/id:user')
+    getPostsUser(@Param('user',ParseIntPipe) idPostUser:number){
+        return this.postService.getPostsUser(idPostUser);
+    }
+
+    @Delete('/id:post')
+    deletePostUser(@Param('post',ParseIntPipe) idPostUser:number){
+        return this.postService.deletePostUser(idPostUser);
     }
 }

@@ -11,6 +11,8 @@ import { TagsPostsModule } from './tags-posts/tags-posts.module';
 import { TagsPosts } from './tags-posts/models/tags-posts.model';
 import { TagModule } from './tags/tag.module';
 import { APP_PIPE } from '@nestjs/core';
+import { TokenModule } from './token/token.module';
+import { Token } from './token/models/token.model';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { APP_PIPE } from '@nestjs/core';
         password: configService.get('DB_PASSWORD'),
         port: Number(configService.get('DB_PORT')),
         database: configService.get('DB_NAME'),
-        models: [User, Post, Tag, TagsPosts]
+        models: [User, Post, Tag, TagsPosts,Token]
       }),
       inject: [ConfigService]
     }),
@@ -32,7 +34,7 @@ import { APP_PIPE } from '@nestjs/core';
     TagModule,
     UserModule,
     PostModule,
-    AuthenticationModule
+    TokenModule
 
   ],
   providers: [{

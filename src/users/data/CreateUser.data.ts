@@ -13,4 +13,5 @@ export class CreateUserData {
     @IsNotEmpty() 
     @IsString()
     readonly lastName?: string;
+    id: any;
 }

@@ -15,11 +15,12 @@ const config_1 = require("@nestjs/config");
 const user_model_1 = require("./users/models/user.model");
 const post_model_1 = require("./posts/models/post.model");
 const tag_model_1 = require("./tags/models/tag.model");
-const authentication_module_1 = require("./authentication/authentication.module");
 const tags_posts_module_1 = require("./tags-posts/tags-posts.module");
 const tags_posts_model_1 = require("./tags-posts/models/tags-posts.model");
 const tag_module_1 = require("./tags/tag.module");
 const core_1 = require("@nestjs/core");
+const token_module_1 = require("./token/token.module");
+const token_model_1 = require("./token/models/token.model");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -36,7 +37,7 @@ exports.AppModule = AppModule = __decorate([
                     password: configService.get('DB_PASSWORD'),
                     port: Number(configService.get('DB_PORT')),
                     database: configService.get('DB_NAME'),
-                    models: [user_model_1.User, post_model_1.Post, tag_model_1.Tag, tags_posts_model_1.TagsPosts]
+                    models: [user_model_1.User, post_model_1.Post, tag_model_1.Tag, tags_posts_model_1.TagsPosts, token_model_1.Token]
                 }),
                 inject: [config_1.ConfigService]
             }),
@@ -44,7 +45,7 @@ exports.AppModule = AppModule = __decorate([
             tag_module_1.TagModule,
             user_module_1.UserModule,
             post_module_1.PostModule,
-            authentication_module_1.AuthenticationModule
+            token_module_1.TokenModule
         ],
         providers: [{
                 provide: core_1.APP_PIPE,

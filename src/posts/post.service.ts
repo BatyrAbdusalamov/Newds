@@ -33,4 +33,23 @@ export class PostService {
             return posts
         } catch (error) { return new HttpException(error, 500); }
     }
+
+    async getPostsUser(idPostUser:number){
+        try{
+             return  await this.postRepository.findAll({where:{idPostUser}})
+        }
+        catch(error){
+            return new HttpException(error,500)
+        }
+    }
+    async deletePostUser(idPostUser:number){
+        try{
+            const deletePost:number = await this.postRepository.destroy({where:{id:idPostUser}})
+            if(deletePost==0) return new HttpException('Resource does not exist',404)
+            return new HttpException('Not Content',204)
+        }
+        catch(error){
+            return new HttpException(error,500)
+        }
+    }
 }

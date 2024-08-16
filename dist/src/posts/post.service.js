@@ -53,6 +53,25 @@ let PostService = class PostService {
             return new common_1.HttpException(error, 500);
         }
     }
+    async getPostsUser(idPostUser) {
+        try {
+            return await this.postRepository.findAll({ where: { idPostUser } });
+        }
+        catch (error) {
+            return new common_1.HttpException(error, 500);
+        }
+    }
+    async deletePostUser(idPostUser) {
+        try {
+            const deletePost = await this.postRepository.destroy({ where: { id: idPostUser } });
+            if (deletePost == 0)
+                return new common_1.HttpException('Resource does not exist', 404);
+            return new common_1.HttpException('Not Content', 204);
+        }
+        catch (error) {
+            return new common_1.HttpException(error, 500);
+        }
+    }
 };
 exports.PostService = PostService;
 exports.PostService = PostService = __decorate([
