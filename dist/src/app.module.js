@@ -50,7 +50,7 @@ exports.AppModule = AppModule = __decorate([
         providers: [{
                 provide: core_1.APP_PIPE,
                 useClass: common_1.ValidationPipe,
-            }]
+            }],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

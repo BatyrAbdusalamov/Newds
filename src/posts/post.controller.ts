@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query, } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostData } from './data/CreatePost.data';
 
@@ -11,8 +11,9 @@ export class PostController {
         return this.postService.createPost(postObject);
     }
 
-    @Get(':page')
-    getAllPosts(@Param('page' , ParseIntPipe) page:number){
+    @Get()
+    getAllPosts(@Query('page', ParseIntPipe) page){
+        console.log('DSF');
         return this.postService.getAllPosts(page);
     }
 

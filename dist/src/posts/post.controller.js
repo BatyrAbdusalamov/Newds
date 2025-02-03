@@ -24,6 +24,7 @@ let PostController = class PostController {
         return this.postService.createPost(postObject);
     }
     getAllPosts(page) {
+        console.log('DSF');
         return this.postService.getAllPosts(page);
     }
     getPostsUser(idPostUser) {
@@ -42,10 +43,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "createPost", null);
 __decorate([
-    (0, common_1.Get)(':page'),
-    __param(0, (0, common_1.Param)('page', common_1.ParseIntPipe)),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('page', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "getAllPosts", null);
 __decorate([

@@ -8,8 +8,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const configService = app.get(ConfigService)
   app.enableCors({
-    origin: [configService.get('FRONT_URL')]
-  })
+    origin: '*',
+    methods: ['GET', 'POST','PUT','PATCH','OPTIONS'],
+    credentials: true,
+  });
   await app.listen(configService.get('PORT'))
   app.useGlobalPipes(new ValidationPipe());
   console.log('server start on: ', configService.get('PORT'))

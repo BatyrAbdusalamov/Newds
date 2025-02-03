@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModule } from './users/user.module';
 import { PostModule } from './posts/post.module';
@@ -13,6 +13,7 @@ import { TagModule } from './tags/tag.module';
 import { APP_PIPE } from '@nestjs/core';
 import { TokenModule } from './token/token.module';
 import { Token } from './token/models/token.model';
+import { CorsMiddleware } from './middleware/cors/cors.middleware';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { Token } from './token/models/token.model';
   providers: [{
     provide: APP_PIPE,
     useClass: ValidationPipe,
-  }]
+  }],
+  
 })
-export class AppModule { }
+export class AppModule {}

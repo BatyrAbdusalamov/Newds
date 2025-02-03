@@ -8,7 +8,9 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
     app.enableCors({
-        origin: [configService.get('FRONT_URL')]
+        origin: '*',
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS'],
+        credentials: true,
     });
     await app.listen(configService.get('PORT'));
     app.useGlobalPipes(new common_1.ValidationPipe());
