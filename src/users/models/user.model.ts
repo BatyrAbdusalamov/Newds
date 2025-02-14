@@ -1,6 +1,5 @@
 import { Column, DataType, HasMany, HasOne, Model, Table } from "sequelize-typescript";
 import { Post } from "src/posts/models/post.model";
-import { Token } from "src/token/models/token.model";
 
 interface UserCreation {
     id:number;
@@ -30,9 +29,6 @@ export class User extends Model <User, UserCreation>{
 
     @Column({type:DataType.STRING})
     photo: string;
-
-    @HasOne(()=>Token)
-    refresh:string
     
     @HasMany(()=>Post)
     posts:Post[];

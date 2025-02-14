@@ -20,24 +20,32 @@ let AuthenticationController = class AuthenticationController {
     constructor(authenticationService) {
         this.authenticationService = authenticationService;
     }
-    async addNewUser(data, res) {
-        const userJwt = await this.authenticationService.register(data);
-        if (userJwt instanceof common_1.UnauthorizedException)
-            return userJwt;
-        res.set('x-access-token', userJwt.refresh);
-        return userJwt;
+    async addNewUser(userData, res) {
+        const data = await this.authenticationService.register(userData);
+        if (data instanceof common_1.HttpException) {
+            res.statusCode = data.getStatus();
+            return data;
+        }
+        ;
+        res.set('x-access-token', data[1].accessToken);
+        res.set('x-refresh-token', data[1].refreshToken);
+        return data[0];
     }
     async getByLogin(data, res) {
         const userJwt = await this.authenticationService.getAuthenticatedUser(data);
-        if (userJwt instanceof common_1.UnauthorizedException)
-            return userJwt;
-        res.set('x-access-token', userJwt.access_token);
-        return userJwt.user;
+        if (userJwt instanceof common_1.UnauthorizedException) {
+            res.statusCode = userJwt.getStatus();
+            return userJwt.message;
+        }
+        ;
+        res.set('x-access-token', userJwt[1].accessToken);
+        res.set('x-refresh-token', userJwt[1].refreshToken);
+        return userJwt[0];
     }
 };
 exports.AuthenticationController = AuthenticationController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('out'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
@@ -45,11 +53,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "addNewUser", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Post)('in'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateUser_data_1.CreateUserData, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "getByLogin", null);
 exports.AuthenticationController = AuthenticationController = __decorate([

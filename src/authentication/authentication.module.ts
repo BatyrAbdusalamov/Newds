@@ -5,6 +5,7 @@ import { AuthenticationService } from "./authentication.service";
 import { AuthenticationController } from "./authentication.controller";
 import { JwtModule, JwtService } from "@nestjs/jwt"
 import { jwtConstants } from "./constants";
+import { ConfigService } from "@nestjs/config";
 @Module({
     imports: [SequelizeModule.forFeature([User]),
     JwtModule.register({
@@ -13,7 +14,7 @@ import { jwtConstants } from "./constants";
         signOptions: { expiresIn: '60s' }
       })],
     controllers: [AuthenticationController],
-    providers: [AuthenticationService,JwtService],
+    providers: [AuthenticationService,JwtService,ConfigService],
     exports:[AuthenticationService]
 })
 export class AuthenticationModule { }

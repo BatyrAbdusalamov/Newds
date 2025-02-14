@@ -12,11 +12,6 @@ export class UserController {
         return this.userService.getUserPosts(id);
     }
 
-    @Post()
-    registerUser(@Body() registrationData: CreateUserData) {
-        return this.userService.addNewUser(registrationData);
-    }
-
     @Get()
     getAuthenticatedUser(@Body() login: string, response: Response) {
         response.cookie('access_token', 'tokens!!!!!!!', {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Header, Post, Query, Res, UnauthorizedException } from "@nestjs/common";
+import { Body, Controller, Get, Header, HttpException, Post, Query, Res, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { CreateUserData } from "src/users/data/CreateUser.data";
 import { User } from "src/users/models/user.model";
@@ -8,18 +8,24 @@ import { Response } from "express";
 export class AuthenticationController{
     constructor(private authenticationService:AuthenticationService) { }
 
-    @Post()
-    async addNewUser(@Body() data: CreateUserData, @Res({ passthrough: true }) res:Response){
-       const userJwt = await this.authenticationService.register(data);
-       if(userJwt instanceof UnauthorizedException) return userJwt;
-        res.set('x-access-token',userJwt.refresh)
-        return userJwt;
+    @Post('out')
+    async addNewUser(@Body() userData: CreateUserData, @Res({ passthrough: true }) res:Response){
+       const data = await this.authenticationService.register(userData);
+       if(data instanceof HttpException) {
+        res.statusCode = data.getStatus()
+        return data};
+        res.set('x-access-token',data[1].accessToken)
+        res.set('x-refresh-token',data[1].refreshToken)
+        return data[0];
     }
-    @Get()
-    async getByLogin(@Body() data:CreateUserData, @Res({ passthrough: true }) res:Response){
+    @Post('in')
+    async getByLogin(@Body() data, @Res({ passthrough: true }) res:Response){
         const userJwt = await this.authenticationService.getAuthenticatedUser(data);
-        if(userJwt instanceof UnauthorizedException) return userJwt;
-        res.set('x-access-token',userJwt.access_token)
-        return userJwt.user
+        if(userJwt instanceof UnauthorizedException){ 
+            res.statusCode = userJwt.getStatus()
+            return userJwt.message };
+        res.set('x-access-token',userJwt[1].accessToken)
+        res.set('x-refresh-token',userJwt[1].refreshToken)
+        return userJwt[0]
     }
 }

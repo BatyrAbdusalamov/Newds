@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
 const post_model_1 = require("../../posts/models/post.model");
-const token_model_1 = require("../../token/models/token.model");
 let User = class User extends sequelize_typescript_1.Model {
 };
 exports.User = User;
@@ -40,10 +39,6 @@ __decorate([
     (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.STRING }),
     __metadata("design:type", String)
 ], User.prototype, "photo", void 0);
-__decorate([
-    (0, sequelize_typescript_1.HasOne)(() => token_model_1.Token),
-    __metadata("design:type", String)
-], User.prototype, "refresh", void 0);
 __decorate([
     (0, sequelize_typescript_1.HasMany)(() => post_model_1.Post),
     __metadata("design:type", Array)

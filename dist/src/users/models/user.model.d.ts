@@ -15,7 +15,6 @@ export declare class User extends Model<User, UserCreation> {
     firstName: string;
     lastName: string;
     photo: string;
-    refresh: string;
     posts: Post[];
 }
 export {};

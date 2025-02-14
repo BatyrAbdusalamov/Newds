@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "site",
+    "username": "dunc",
+    "password": "dunc",
+    "database": "news-site-db",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

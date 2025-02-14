@@ -11,8 +11,6 @@ import { TagsPostsModule } from './tags-posts/tags-posts.module';
 import { TagsPosts } from './tags-posts/models/tags-posts.model';
 import { TagModule } from './tags/tag.module';
 import { APP_PIPE } from '@nestjs/core';
-import { TokenModule } from './token/token.module';
-import { Token } from './token/models/token.model';
 import { CorsMiddleware } from './middleware/cors/cors.middleware';
 
 @Module({
@@ -27,7 +25,7 @@ import { CorsMiddleware } from './middleware/cors/cors.middleware';
         password: configService.get('DB_PASSWORD'),
         port: Number(configService.get('DB_PORT')),
         database: configService.get('DB_NAME'),
-        models: [User, Post, Tag, TagsPosts,Token]
+        models: [User, Post, Tag, TagsPosts]
       }),
       inject: [ConfigService]
     }),
@@ -35,7 +33,7 @@ import { CorsMiddleware } from './middleware/cors/cors.middleware';
     TagModule,
     UserModule,
     PostModule,
-    TokenModule
+    AuthenticationModule
 
   ],
   providers: [{

@@ -14,6 +14,7 @@ const authentication_service_1 = require("./authentication.service");
 const authentication_controller_1 = require("./authentication.controller");
 const jwt_1 = require("@nestjs/jwt");
 const constants_1 = require("./constants");
+const config_1 = require("@nestjs/config");
 let AuthenticationModule = class AuthenticationModule {
 };
 exports.AuthenticationModule = AuthenticationModule;
@@ -26,7 +27,7 @@ exports.AuthenticationModule = AuthenticationModule = __decorate([
                 signOptions: { expiresIn: '60s' }
             })],
         controllers: [authentication_controller_1.AuthenticationController],
-        providers: [authentication_service_1.AuthenticationService, jwt_1.JwtService],
+        providers: [authentication_service_1.AuthenticationService, jwt_1.JwtService, config_1.ConfigService],
         exports: [authentication_service_1.AuthenticationService]
     })
 ], AuthenticationModule);

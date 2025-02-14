@@ -18,11 +18,12 @@ const common_1 = require("@nestjs/common");
 const user_model_1 = require("../users/models/user.model");
 const sequelize_1 = require("@nestjs/sequelize");
 const jwt_1 = require("@nestjs/jwt");
-const constants_1 = require("./constants");
+const config_1 = require("@nestjs/config");
 let AuthenticationService = class AuthenticationService {
-    constructor(userRepository, jwtService) {
+    constructor(userRepository, jwtService, configService) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.configService = configService;
     }
     async register(registrationData) {
         const hashedPassword = await bcrypt.hash(registrationData.password, 10);
@@ -33,16 +34,11 @@ let AuthenticationService = class AuthenticationService {
             });
             createdUser['password'] = null;
             delete createdUser['password'];
-            const payload = { sub: createdUser.id, username: createdUser.login };
-            const jwt = await this.jwtService.signAsync(payload, constants_1.jwtConstants);
-            const addRefresh = await this.userRepository.update({ refresh: jwt }, { where: { id: createdUser.id } });
-            createdUser.refresh = jwt;
-            if (addRefresh[0] === 0)
-                throw new Error();
-            return createdUser;
+            const tokens = await this.createJwtTokens(createdUser);
+            return [createdUser, tokens];
         }
         catch (error) {
-            throw new common_1.HttpException(error, common_1.HttpStatus.BAD_REQUEST);
+            return new common_1.HttpException(error, common_1.HttpStatus.BAD_REQUEST);
         }
     }
     async getAuthenticatedUser(data) {
@@ -51,11 +47,8 @@ let AuthenticationService = class AuthenticationService {
             const user = await this.userRepository.findOne({ where: { login } });
             await this.verifyPassword(data.password, user.password);
             user.password = null;
-            const payload = { sub: user.id, username: user.login };
-            return {
-                user: user,
-                access_token: await this.jwtService.signAsync(payload),
-            };
+            const tokens = await this.createJwtTokens(data);
+            return [user, tokens];
         }
         catch (error) {
             return new common_1.UnauthorizedException(error);
@@ -67,11 +60,23 @@ let AuthenticationService = class AuthenticationService {
             throw new Error('Invalid username or password');
         }
     }
+    async createJwtTokens(user) {
+        const payload = { sub: user.id, username: user.login };
+        const refreshToken = await this.jwtService.signAsync(payload, {
+            secret: this.configService.get('JWT_REFRESH_TOKEN'),
+            expiresIn: `30d`
+        });
+        const accessToken = await this.jwtService.signAsync(payload, {
+            secret: this.configService.get('JWT_ACCESS_TOKEN'),
+            expiresIn: `30m`
+        });
+        return { refreshToken, accessToken };
+    }
 };
 exports.AuthenticationService = AuthenticationService;
 exports.AuthenticationService = AuthenticationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, sequelize_1.InjectModel)(user_model_1.User)),
-    __metadata("design:paramtypes", [Object, jwt_1.JwtService])
+    __metadata("design:paramtypes", [Object, jwt_1.JwtService, config_1.ConfigService])
 ], AuthenticationService);
 //# sourceMappingURL=authentication.service.js.map
