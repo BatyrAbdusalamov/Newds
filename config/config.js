@@ -1,4 +1,4 @@
-{
+module.exports = {
   "development": {
     "username": "dunc",
     "password": "dunc",
@@ -7,10 +7,10 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "dunice",
-    "password": "dunice",
-    "database": "site",
-    "host": "127.0.0.1",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "news-site-db",
+    "host": "database",
     "dialect": "postgres"
   },
   "production": {
